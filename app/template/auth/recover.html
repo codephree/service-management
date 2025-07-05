@@ -1,0 +1,51 @@
+{% extends 'base_auth.html' %}
+{% block title%} Password Recovery {% endblock %}
+
+ {% block content %}
+
+
+    <div id="wrapper" class="row wrapper">
+
+        <div class="container-min-full-height d-flex justify-content-center align-items-center">
+
+            <div class="login-center">
+
+                <div class="navbar-header text-center mt-2 mb-4">
+                    <a href="{{ url_for('home') }}">
+                        <img alt="" src="{{ url_for('static', filename='assets/img/logo-light.png') }}">
+                    </a>
+                </div>
+
+                <form method="POST" action="{{ url_for('auth_bp.recover') }}">
+
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        {{ form.email(class="form-control form-control-line", placeholder="Enter your email") }}
+                        {% if form.email.errors %}
+                            <div class="text-danger">{{ form.email.errors[0] }}</div>
+                        {% endif %} 
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-block btn-lg btn-primary text-uppercase fs-12 fw-600" type="submit">Recover Password</button>    
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 d-flex">
+                            <a href="{{ url_for('auth_bp.login') }}" id="to-login" class="my-auto pb-2 text-right">
+                                <i class="material-icons mr-2 fs-18">arrow_back</i> Back to Login
+                            </a>
+                        </div>  
+                        <!-- /.col-md-12 -->
+                    </div>
+                    <!-- /.form-group -->
+                </form> 
+                <!-- /.login-form -->
+            </div>
+            <!-- /.login-center -->     
+        </div>
+        <!-- /.container-min-full-height -->
+    </div>
+    <!-- /.wrapper -->  
+{% endblock %}
+

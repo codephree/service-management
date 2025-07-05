@@ -1,0 +1,70 @@
+{% extends 'base_auth.html' %}
+{% block title%} Register {% endblock %}
+{% block content %}
+<div id="wrapper" class="row wrapper">
+
+        <div class="container-min-full-height d-flex justify-content-center align-items-center">
+
+            <div class="login-center">
+
+                <div class="navbar-header text-center mt-2 mb-4">
+                    <a href="{{ url_for('home') }}">
+                        <img alt="" src="{{ url_for('static', filename='assets/img/logo-light.png') }}">
+                    </a>
+                </div>
+                <!-- /.navbar-header -->
+                 {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="notification is-danger">
+                            {{ messages[0] }}.
+                        </div>
+                    {% endif %}
+                {% endwith %}
+    <form method="POST" action="{{ url_for('auth_bp.register') }}">
+                {{ form.hidden_tag() }}
+                  <div class="form-group  
+                    {{ form.name.label(class="form-label") }}
+                    {{ form.name(class="form-control", placeholder="Enter your full name") }}
+                    {% if form.name.errors %}
+                        <div class="text-danger">{{ form.name.errors[0] }}</div>
+                    {% endif %} 
+                </div>
+                <div class="form-group  
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control", placeholder="Enter your email") }}
+                    {% if form.email.errors %}
+                        <div class="text-danger">{{ form.email.errors[0] }}</div>
+                    {% endif %} 
+                </div>
+                <div class="form-group
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control", placeholder="Enter your password") }}
+                    {% if form.password.errors %}
+                        <div class="text-danger">{{ form.password.errors[0] }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group
+                    {{ form.confirm_password.label(class="form-label") }}
+                    {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+                    {% if form.confirm_password.errors %}
+                        <div class="text-danger">{{ form.confirm_password.errors[0] }}</div>
+                    {% endif %} 
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary btn-block") }}  
+                    <!-- <button type="submit" class="btn btn-primary btn-block">Register</button> -->
+                </div>  
+            </form> 
+         <!-- /.form-material -->
+                <footer class="col-sm-12 text-center">
+                    <hr>
+                   <p class="text-center">Already have an account? <a href="{{ url_for('auth_bp.login') }}">Login here</a></p>
+                </footer>
+            </div>
+            <!-- /.login-center -->
+        </div>
+        <!-- /.d-flex -->
+    </div>
+    <!-- /.body-container -->
+{% endblock content %}
+
