@@ -19,6 +19,9 @@
     <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet" type="text/css">
     <!-- Head Libs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+     {{ toastr.include_jquery() }}
+     {{ toastr.include_toastr_css() }}
+     {{ toastr.message() }}
 </head>
 
 <body class="body-bg-full profile-page">
@@ -27,10 +30,14 @@
  
      {% endblock %}
 
+   
   <!-- Scripts -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='assets/js/material-design.js') }}"></script>
+    {{ toastr.include_toastr_js() }}
+    {% block scripts %}
+    {% endblock %}
 </body>
 
 </html>

@@ -14,13 +14,11 @@
                     </a>
                 </div>
                 <!-- /.navbar-header -->
-                 {% with messages = get_flashed_messages() %}
-                    {% if messages %}
+                {% if messages %}
                         <div class="notification is-danger">
                             {{ messages[0] }}.
                         </div>
-                    {% endif %}
-                {% endwith %}
+               {% endif %}
                 <form method="POST" action="{{ url_for('auth_bp.login') }}">
                     {{ form.hidden_tag() }}
 
@@ -70,3 +68,6 @@
     </div>
     <!-- /.body-container -->
  {% endblock %}
+
+{% block scripts %}
+{% endblock %}

@@ -8,3 +8,4 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI')\
         or 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    TOASTR_TIMEOUT = int(os.environ.get('TOASTR_TIMEOUT', 5000))  # Default timeout for toastr notifications

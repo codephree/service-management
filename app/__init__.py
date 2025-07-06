@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from .extenions import db, migrate, login_manager
+from .extenions import db, migrate, login_manager, Toastr
 from app.models.user import User
 
 from config import  Config
@@ -14,6 +14,7 @@ def create_app(config_class = Config):
 
     db.init_app(app)
     migrate.init_app(app,db)
+    Toastr.init_app(app)  # Initialize Flask-Toastr
     login_manager.init_app(app)
     login_manager.login_view = 'auth_bp.login'  # Set the login view for Flask-Login
 

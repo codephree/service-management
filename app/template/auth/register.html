@@ -12,14 +12,7 @@
                         <img alt="" src="{{ url_for('static', filename='assets/img/logo-light.png') }}">
                     </a>
                 </div>
-                <!-- /.navbar-header -->
-                 {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <div class="notification is-danger">
-                            {{ messages[0] }}.
-                        </div>
-                    {% endif %}
-                {% endwith %}
+                
     <form method="POST" action="{{ url_for('auth_bp.register') }}">
                 {{ form.hidden_tag() }}
                   <div class="form-group  

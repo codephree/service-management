@@ -23,10 +23,11 @@ def login():
         if user and check_password_hash(user.password, password):
             # Logic for successful login (e.g., setting session)
             login_user(user, remember=remeber)  # Use the remember parameter to set the session cookie
-            flash('Login successful!', 'success')
+            # flash('Login successful!', 'success')
             return redirect(url_for('dashboard_bp.index'))
         else:
-            flash('Invalid email or password. Please try again.', 'danger')
+            # flash('Invalid email or password. Please try again.', 'danger')
+            flash({'title': "Invalid Credential", 'message': "Invalid email or password. Please try again"}, 'error')
             return render_template('auth/login.html', form=form)
         
     return render_template('auth/login.html', form=form)
@@ -34,7 +35,8 @@ def login():
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        flash('You are already logged in.', 'info') 
+        # flash('You are already logged in.', 'info')
+        flash({'title': "Authentication Message", 'message': "You are already logged in."}, 'info') 
         return redirect(url_for('dashboard_bp.index'))  # Redirect to dashboard if already logged in
     
     # If the user is not authenticated, proceed with login  
@@ -48,7 +50,7 @@ def register():
         existing_user = User.query.filter_by(email=email).first()   
         if existing_user:
             flash('Email already registered. Please log in.', 'warning')
-            return redirect(url_for('auth_bp.login'))
+            return redirect(url_for('auth_bp.register'))  # Redirect to register page if email already exists
 
         # Here you would typically create a new user instance and save it to the database
         new_user = User(name=name, email=email, password=generate_password_hash(password, method='scrypt'))  # Assuming User model has these fields
