@@ -23,3 +23,29 @@ class ResetPasswordConfirmForm(FlaskForm):
     password = PasswordField('New Password', validators=[DataRequired(), Length(min=6)])
     confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('password')])  
     submit = SubmitField('Reset Password')
+
+class SettingsForm(FlaskForm):
+    name = StringField('Full Name', validators=[DataRequired(), Length(min=3, max=25)])
+    # username = StringField('Username', validators=[DataRequired(), Length(min=3, max=25)])
+    # password = PasswordField('Old Password', validators=[DataRequired(), Length(min=6)])
+    # new_password = PasswordField('New Password', validators=[DataRequired(), Length(min=6)]) 
+    submit = SubmitField('Update Settings')
+
+    def validate_username(self, username):
+        # Add custom validation logic if needed
+        pass
+
+    def validate_email(self, email):
+        # Add custom validation logic if needed
+        pass   
+    
+     
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[DataRequired(), Length(min=6)])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password')])
+    submit = SubmitField('Change Password')
+
+    def validate_current_password(self, current_password):
+        # Add custom validation logic if needed
+        pass    

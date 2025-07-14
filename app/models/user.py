@@ -15,6 +15,8 @@ class User(UserMixin,db.Model, TimestampMixin):
     role = db.Column(db.String(100), default='user')    
     is_verified = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True)
+    profile = db.relationship('Profile', uselist=False, back_populates='user')
+    
 
 
     def __repr__(self):

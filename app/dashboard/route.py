@@ -1,25 +1,43 @@
-from flask import redirect, url_for, flash, render_template
+from flask import redirect, url_for, flash, render_template, jsonify, request
 from flask_login import login_required, current_user
+from app.forms import SettingsForm
 from app.dashboard import dashboard_bp
+from app.models.user import User
+from app.extenions import db
+
 
 @dashboard_bp.route('/')
 @login_required
-def index():
-    if not current_user.is_authenticated:
-        flash('You need to log in first.', 'warning')
-        return redirect(url_for('auth_bp.login'))
-   
+def index():   
     return render_template('dashboard/index.html', user=current_user)
 
-@dashboard_bp.route('/settings')
+@dashboard_bp.route('/settings', methods=['GET','POST'])
 @login_required
 def settings():
-    if not current_user.is_authenticated:
-        flash('You need to log in first.', 'warning')
-        return redirect(url_for('auth_bp.login'))
     
-    # Here you would typically fetch user settings from the database
-    # For now, we will just render a placeholder template
-    return render_template('dashboard/settings.html')
+    user = User.query.get_or_404(current_user.id)
     
+    form = SettingsForm()
+    form.name.data = user.name
+    
+    context = {
+        'form': form,
+        'user': current_user,
+        'title': 'Settings',    
+        'description': 'Manage your account settings',
+        'active_page': 'settings'
+    }
+    
+    if form.validate_on_submit():
+        print(request.form.get("name"))
+       
+        user.name = request.form.get("name")
+        db.session.commit()
+
+        flash({'title':'Successful','message': 'Your settings have been updated.'}, 'success')
+        # return redirect(url_for('dashboard_bp.settings'))
+        return render_template('dashboard/settings.html', context=context)
+    
+    
+    return render_template('dashboard/settings.html', context=context)
     

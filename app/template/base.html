@@ -1,57 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='assets/img/favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/pace.css') }}">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Remedy App | {% block title%} {% endblock %}</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js" integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .form-label {
-            font-weight: bold;
-        }
-        .form-control {
-            border-radius: 0.25rem;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }   
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }   
-        .text-danger {
-            font-size: 0.875rem;
-        }
-        .text-center {
-            margin-top: 20px;
-        } 
-        .form-check-label {
-            margin-left: 0.5rem;
-        }
-        .form-check-input {
-            margin-top: 0.3rem;
-        }
-        .form-check {
-            margin-bottom: 1rem;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }   
-    </style>
-    {% block head %}
-    {% endblock %}
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600%7CRoboto:400" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/vendors/material-icons/material-icons.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/vendors/mono-social-icons/monosocialiconsfont.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/vendors/feather-icons/feather.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.7.0/css/perfect-scrollbar.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet" type="text/css">
+    <!-- Head Libs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script data-pace-options='{ "ajax": false, "selectors": [ "img" ]}' src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
+    {{ toastr.include_jquery() }}
+    {{ toastr.include_toastr_css() }}
+    {{ toastr.message() }}
 </head>
-<body>
-  {% block content %}
-  {% endblock %}
+
+<body class="sidebar-horizontal">
+    <div id="wrapper" class="wrapper">
+        {% include 'blocks/navbar.html' %}
+         <div class="content-wrapper">
+            {% include 'blocks/mainbar.html' %}
+            <main class="main-wrapper clearfix">
+              
+                {% block content %}
+                {% endblock %}
+            </main>
+         </div>
+     </div>
+    
+<!-- <footer class="footer"><span class="heading-font-family">Copyright &copy; 2025. All rights reserved</span>
+    </footer> -->
+    </div>
+    <!--/ #wrapper -->
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.2/umd/popper.min.js"></script>
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.0/metisMenu.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.7.0/js/perfect-scrollbar.jquery.js"></script>
+    <script src="{{ url_for('static', filename='assets/js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+    {{ toastr.include_toastr_js() }}
+    {% block scripts %}
+    {% endblock %}
 </body>
+
+
+
 </html>

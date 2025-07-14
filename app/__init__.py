@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 from .extenions import db, migrate, login_manager, Toastr
 from app.models.user import User
+from app.models.services import Services
+from app.models.menu import *
 
 from config import  Config
 
@@ -30,6 +32,9 @@ def create_app(config_class = Config):
     from app.dashboard import dashboard_bp
     app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
 
+    from app.incident import incident_bp
+    app.register_blueprint(incident_bp, url_prefix='/incident')
+
     @app.route('/')
     def home():
         return render_template('home.html')
@@ -38,6 +43,24 @@ def create_app(config_class = Config):
     def about():
         return render_template('about.html')
 
+    @app.route('/contact')
+    def contact():
+        return {
+            'message': 'This is the contact page. You can reach us at '
+        }
    
+
+    with app.app_context():
+            db.create_all()
+
+            if Services.query.count() == 0:
+                    db.session.add(Services(name='Application Support', description='Application support team',vendor='Tecnotree Nigeria', sla=5))
+                    db.session.add(Services(name='Developer Team', description='Dev team',vendor='CWG company', sla=5))
+                    db.session.add(Services(name='Email delivery', description='Windows team',vendor='Techmandira Limited', sla=2.5))
+                    db.session.add(Services(name='Cloud services', description='cloud team ',vendor='Tavia Technology', sla=5))
+                    db.session.add(Services(name='Asset Management', description='asset managers',vendor='Techmandira Limited', sla=5))
+                    db.session.add(Services(name='Cleaning', description='cleaner manager',vendor='Availago Global', sla=5))
+                    db.session.commit()
+
     return app
 

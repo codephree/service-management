@@ -1,0 +1,33 @@
+ {% extends "base.html" %}
+{% block title %}
+    {{ context.title }} 
+{% endblock %}
+ {% block content %}
+    {% include 'blocks/breadcrumb.html' %}
+   <div class="row">    
+         <div class="widget-bg">
+                            <div class="widget-body clearfix">
+         <div class="col-md-6">
+             <form method="POST" action="{{ url_for('dashboard_bp.settings') }}">
+                {{ context.form.hidden_tag() }}
+                 <div class="form-group">
+                        {{ context.form.name.label(class="form-label") }}
+                        {{ context.form.name(class="form-control") }}
+                        {% if context.form.name.errors %}
+                            <div class="alert alert-danger">
+                                {% for error in context.form.name.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %} 
+                    </div>
+                     <div class="form-group">
+                            {{ context.form.submit(class="btn btn-primary") }}
+                        </div>
+             </form>
+        </div>
+        </div>
+        </div>
+   </div>
+    
+ {% endblock %}

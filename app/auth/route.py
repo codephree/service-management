@@ -9,7 +9,8 @@ from flask_login import login_user, logout_user, login_required, current_user
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        flash('You are already logged in.', 'info') 
+        
+        flash({'title': "Authentication Message", 'message': "You are already logged in."}, 'info') 
         return redirect(url_for('dashboard_bp.index'))  # Redirect to dashboard if already logged in
     
     # If the user is not authenticated, proceed with login  
@@ -49,7 +50,8 @@ def register():
         # Check if the user already exists
         existing_user = User.query.filter_by(email=email).first()   
         if existing_user:
-            flash('Email already registered. Please log in.', 'warning')
+            # flash('Email already registered. Please log in.', 'warning')
+            flash({'title': "Authentication Message", 'message': "Email already registered. Please log in."}, 'warning') 
             return redirect(url_for('auth_bp.register'))  # Redirect to register page if email already exists
 
         # Here you would typically create a new user instance and save it to the database
@@ -58,7 +60,8 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        flash('Registration successful! You can now log in.', 'success')
+        # flash('Registration successful! You can now log in.', 'success')
+        flash({'title': "Authentication Message", 'message': "Registration successful! You can now log in."}, 'warning') 
         return redirect(url_for('auth_bp.login'))  # Redirect to login page after successful registration
 
         # Logic for user registration
@@ -70,13 +73,15 @@ def register():
 @login_required
 def logout():
     logout_user()   
-    flash('You have been logged out.', 'info')
+    # flash('You have been logged out.', 'info')
+    flash({'title': "Authentication Message", 'message': "You have been logged out."}, 'warning') 
     return redirect(url_for('auth_bp.login'))
 
 @auth_bp.route('/recover', methods=['GET', 'POST'])
 def recover():
     if current_user.is_authenticated:
-        flash('You are already logged in.', 'info') 
+        # flash('You are already logged in.', 'info') 
+        flash({'title': "Authentication Message", 'message': "You are already logged in."}, 'warning')
         return redirect(url_for('dashboard_bp.index'))
     # If the user is not authenticated, proceed with password recovery  
     form = ResetPasswordForm()
@@ -85,16 +90,40 @@ def recover():
         user = User.query.filter_by(email=email).first()
         if user:
             # Logic to send password reset email
-            flash('A password reset link has been sent to your email.', 'success')
+            # flash('A password reset link has been sent to your email.', 'success')
+            flash({'title': "Authentication Message", 'message': "A password reset link has been sent to your email."}, 'success')
             return redirect(url_for('auth_bp.login'))
         else:
-            flash('Email not found. Please check your email or register.', 'danger')
+            # flash('Email not found. Please check your email or register.', 'danger')
+            flash({'title': "Authentication Message", 'message': "Email not found. Please check your email or register."}, 'danger')
             return render_template('auth/recover.html', form=form)
     return render_template('auth/recover.html',form=form) 
 
 @auth_bp.route('/reset')
 def reset():    
     if current_user.is_authenticated:
-        flash('You are already logged in.', 'info') 
+        # flash('You are already logged in.', 'info') 
+        flash({'title': "Authentication Message", 'message': "You are already logged in."}, 'info')
         return redirect(url_for('dashboard_bp.index'))
     return render_template('auth/reset.html')   
+
+
+@auth_bp.route('/reset-password', methods=['POST'])
+def reset_password():
+    if current_user.is_authenticated:
+        flash('You are already logged in.', 'info') 
+        return redirect(url_for('dashboard_bp.index'))
+    
+    # Logic to reset the password
+    email = request.form.get('email')
+    new_password = request.form.get('new_password')
+    user = User.query.filter_by(email=email).first()
+    
+    if user:
+        user.password = generate_password_hash(new_password, method='scrypt')
+        db.session.commit()
+        flash('Your password has been reset successfully.', 'success')
+        return redirect(url_for('auth_bp.login'))
+    else:
+        flash('Email not found. Please check your email or register.', 'danger')
+        return redirect(url_for('auth_bp.reset'))
